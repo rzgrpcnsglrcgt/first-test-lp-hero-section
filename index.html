@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanni Partners | Deal Origination Infrastructure</title>
+  <meta name="description" content="Proprietary acquisition systems delivering continuous pre-qualified deal flow for capital-intensive verticals.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lato:wght@300;400;700&family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS VARIABLES
+       ======================================== */
+    :root {
+      --bg-primary: #FFF5EA;
+      --bg-secondary: #FBF3E5;
+      --accent-brown: #290900;
+      --text-light: #FFF5EA;
+      --text-light-alt: #FBF3E5;
+      --text-dark: #290900;
+
+      /* Typography */
+      --font-headline: 'Cormorant Garamond', 'Georgia', serif;
+      --font-subheadline: 'Lato', 'Helvetica Neue', sans-serif;
+      --font-body: 'Cormorant', 'Georgia', serif;
+
+      /* Spacing */
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+      --space-2xl: 96px;
+      --space-3xl: 128px;
+
+      /* Transitions */
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --duration-default: 800ms;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent-brown);
+      color: var(--text-light);
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 var(--space-lg);
+      transition: background-color 400ms var(--ease-smooth),
+                  backdrop-filter 400ms var(--ease-smooth);
+    }
+
+    .nav.scrolled {
+      background-color: rgba(255, 245, 234, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 400ms var(--ease-smooth);
+    }
+
+    .nav.scrolled .nav-inner {
+      border-bottom-color: rgba(41, 9, 0, 0.08);
+    }
+
+    .nav-logo {
+      font-family: var(--font-headline);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: opacity 300ms var(--ease-smooth);
+    }
+
+    .nav-logo:hover {
+      opacity: 0.7;
+    }
+
+    .nav-contact {
+      font-family: var(--font-subheadline);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-contact::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--text-dark);
+      transition: width 400ms var(--ease-smooth);
+    }
+
+    .nav-contact:hover::after {
+      width: 100%;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-3xl) var(--space-lg);
+      position: relative;
+      overflow: hidden;
+      background-color: var(--bg-primary);
+    }
+
+    .hero-content {
+      max-width: 920px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Eyebrow */
+    .hero-eyebrow {
+      font-family: var(--font-subheadline);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      opacity: 0.6;
+      margin-bottom: var(--space-md);
+
+      /* Animation */
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1000ms var(--ease-smooth) 200ms forwards;
+    }
+
+    /* Headline */
+    .hero-headline {
+      font-family: var(--font-headline);
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text-dark);
+      margin-bottom: var(--space-lg);
+      max-width: 860px;
+
+      /* Animation */
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1200ms var(--ease-smooth) 400ms forwards;
+    }
+
+    /* Subheadline */
+    .hero-subheadline {
+      font-family: var(--font-subheadline);
+      font-size: clamp(16px, 1.8vw, 19px);
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-dark);
+      opacity: 0.55;
+      max-width: 580px;
+      margin-bottom: var(--space-xl);
+
+      /* Animation */
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1200ms var(--ease-smooth) 600ms forwards;
+    }
+
+    .hero-subheadline-visible {
+      opacity: 0.55;
+    }
+
+    /* Divider line */
+    .hero-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--text-dark);
+      opacity: 0.15;
+      margin-bottom: var(--space-xl);
+
+      /* Animation */
+      opacity: 0;
+      transform: scaleX(0);
+      animation: scaleIn 800ms var(--ease-smooth) 500ms forwards;
+    }
+
+    /* ========================================
+       CTA BUTTON
+       ======================================== */
+    .button-wrapper {
+      position: relative;
+      width: 240px;
+      height: 56px;
+
+      /* Animation */
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1000ms var(--ease-smooth) 800ms forwards;
+    }
+
+    .button-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 56px;
+      border: 2.5px solid var(--accent-brown);
+      border-radius: 8px;
+      background: transparent;
+      z-index: 1;
+      transform: translate(8px, 8px);
+      transition: transform var(--duration-default) var(--ease-smooth);
+      pointer-events: none;
+    }
+
+    .main-button {
+      position: relative;
+      z-index: 2;
+      width: 240px;
+      height: 56px;
+      background: var(--accent-brown);
+      color: var(--text-light);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: var(--font-subheadline);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      transition: transform 300ms var(--ease-smooth),
+                  box-shadow 300ms var(--ease-smooth);
+    }
+
+    .main-button .arrow {
+      display: inline-block;
+      font-size: 18px;
+      transition: transform var(--duration-default) var(--ease-smooth);
+      line-height: 1;
+    }
+
+    /* Hover States */
+    .button-wrapper:hover .button-frame {
+      transform: translate(0, 0);
+    }
+
+    .button-wrapper:hover .main-button .arrow {
+      transform: rotate(-45deg) scale(1.01);
+    }
+
+    /* Focus States */
+    .main-button:focus-visible {
+      outline: 2px solid var(--accent-brown);
+      outline-offset: 4px;
+    }
+
+    /* ========================================
+       BOTTOM MARKER (subtle section hint)
+       ======================================== */
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: var(--space-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      opacity: 0;
+      animation: fadeUp 1000ms var(--ease-smooth) 1200ms forwards;
+    }
+
+    .hero-scroll-hint span {
+      font-family: var(--font-subheadline);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      opacity: 0.3;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 32px;
+      background: var(--text-dark);
+      opacity: 0.15;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--text-dark);
+      opacity: 0.6;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(var(--fade-distance, 30px));
+      }
+      to {
+        opacity: var(--fade-target-opacity, 1);
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      to {
+        opacity: 0.15;
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes scrollPulse {
+      0% { top: -100%; }
+      50% { top: 100%; }
+      100% { top: 100%; }
+    }
+
+    /* ========================================
+       RESPONSIVE - TABLET (768px)
+       ======================================== */
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0 var(--space-md);
+      }
+
+      .nav-inner {
+        height: 64px;
+      }
+
+      .nav-logo {
+        font-size: 20px;
+      }
+
+      .hero {
+        padding: var(--space-2xl) var(--space-md);
+        min-height: 100svh;
+      }
+
+      .hero-headline {
+        font-size: clamp(36px, 8vw, 52px);
+        margin-bottom: var(--space-md);
+      }
+
+      .hero-subheadline {
+        font-size: 16px;
+        max-width: 460px;
+        margin-bottom: var(--space-lg);
+      }
+
+      .hero-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+      }
+    }
+
+    /* ========================================
+       RESPONSIVE - MOBILE (375px)
+       ======================================== */
+    @media (max-width: 480px) {
+      .nav {
+        padding: 0 var(--space-sm);
+      }
+
+      .nav-inner {
+        height: 56px;
+      }
+
+      .nav-logo {
+        font-size: 18px;
+      }
+
+      .nav-contact {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: var(--space-xl) var(--space-sm);
+        padding-top: var(--space-2xl);
+      }
+
+      .hero-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        margin-bottom: var(--space-sm);
+      }
+
+      .hero-headline {
+        font-size: 34px;
+        line-height: 1.1;
+        margin-bottom: var(--space-md);
+      }
+
+      .hero-subheadline {
+        font-size: 15px;
+        line-height: 1.55;
+        margin-bottom: var(--space-lg);
+      }
+
+      .hero-divider {
+        margin-bottom: var(--space-lg);
+      }
+
+      .button-wrapper {
+        width: 220px;
+        height: 52px;
+      }
+
+      .button-frame {
+        width: 220px;
+        height: 52px;
+        transform: translate(6px, 6px);
+      }
+
+      .main-button {
+        width: 220px;
+        height: 52px;
+        font-size: 14px;
+      }
+
+      .button-wrapper:hover .button-frame {
+        transform: translate(0, 0);
+      }
+
+      .hero-scroll-hint {
+        bottom: var(--space-md);
+      }
+    }
+
+    /* ========================================
+       PREFERS-REDUCED-MOTION
+       ======================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ========================================
+       PLACEHOLDER SECTION BELOW HERO
+       (to show scroll behavior)
+       ======================================== */
+    .section-next {
+      background: var(--accent-brown);
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-2xl) var(--space-lg);
+    }
+
+    .section-next-inner {
+      max-width: 1440px;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-xl);
+    }
+
+    .section-next-label {
+      font-family: var(--font-subheadline);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      opacity: 0.5;
+      flex-shrink: 0;
+      width: 200px;
+    }
+
+    .section-next-text {
+      font-family: var(--font-headline);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 400;
+      line-height: 1.35;
+      color: var(--text-light);
+      max-width: 720px;
+    }
+
+    @media (max-width: 768px) {
+      .section-next {
+        padding: var(--space-xl) var(--space-md);
+      }
+
+      .section-next-inner {
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+
+      .section-next-label {
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Vanni Partners</a>
+      <a href="#contact" class="nav-contact">Get in Touch</a>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+
+      <p class="hero-eyebrow">Deal Origination Infrastructure</p>
+
+      <div class="hero-divider"></div>
+
+      <h1 class="hero-headline">
+        The Pipeline Engine built for capital-intensive verticals
+      </h1>
+
+      <p class="hero-subheadline">
+        Proprietary acquisition systems delivering continuous pre-qualified deal flow
+      </p>
+
+      <div class="button-wrapper">
+        <div class="button-frame"></div>
+        <button class="main-button" onclick="window.location.href='#contact'">
+          Access Infrastructure
+          <span class="arrow">&rarr;</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ==================== NEXT SECTION PLACEHOLDER ==================== -->
+  <section class="section-next" id="about">
+    <div class="section-next-inner">
+      <span class="section-next-label">What We Build</span>
+      <p class="section-next-text">
+        End-to-end pipeline infrastructure that sources, qualifies, and delivers acquisition-ready opportunities to firms operating in capital-intensive markets.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== MINIMAL JS ==================== -->
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    let ticking = false;
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          if (window.scrollY > 40) {
+            nav.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
